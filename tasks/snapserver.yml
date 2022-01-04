@@ -1,0 +1,35 @@
+- name: snapserver - Ensure the Snapcast server is installed
+  apt:
+    deb: "https://github.com/badaix/snapcast/releases/download/v{{ snapcast_version }}/snapserver_{{ snapcast_version}}-1_armhf.deb"
+
+- name: snapserver - Create directory for named pipe
+  ansible.builtin.file:
+    path: /var/spool/snap
+    state: directory
+    owner: snapserver
+    group: snapserver
+    mode: '0755'
+
+- name: snapserver - Configure the Snapserver sources
+  community.general.ini_file:
+    path: /etc/snapserver.conf
+    section: stream
+    option: source
+    value: pipe:///var/spool/snap/snapfifo?name=default&sampleformat=44000:16:2
+  notify: restart snapserver
+
+- name: snapserver - Set snapserver delay
+  community.general.ini_file:
+    path: /etc/snapserver.conf
+    section: stream
+    option: buffer
+    value: "{{snapcast_delay}}"
+  notify: restart snapserver
+
+- name: snapserver - Run script to reset volume after boot
+  community.general.ini_file:
+    path: /lib/systemd/system/snapserver.service
+    section: Service
+    option: ExecStartPost
+    value: /opt/snap_default.py
+    no_extra_spaces: yes

@@ -1,0 +1,89 @@
+- name: raspotify - Add apt key
+  apt_key:
+    url: https://dtcooper.github.io/raspotify/key.asc
+
+- name: raspotify - Add apt repository
+  apt_repository:
+    repo: deb [arch=armhf] https://dtcooper.github.io/raspotify raspotify main
+    filename: 'raspotify'
+
+- name: raspotify - Install
+  apt:
+    name: raspotify
+    update_cache: yes
+
+- name: raspotify - Configure device name
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_NAME
+    value: "{{raspotify_name}}"
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Configure bitrate
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_BITRATE
+    value: "{{ raspotify_bit_rate }}"
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Configure backend to pipe
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_BACKEND
+    value: pipe
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Configure device to Snapcast fifo
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_DEVICE
+    value: /var/spool/snap/snapfifo
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Configure Spotify icon
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_DEVICE_TYPE
+    value: "{{raspotify_device_type}}"
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Configure backend to pipe
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_VOLUME_RANGE
+    value: "70.0"
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify
+
+- name: raspotify - Copy stop script for MPD
+  ansible.builtin.copy:
+    src: scripts/mpc_stop.sh
+    dest: /opt/mpc_stop.sh
+    mode: '0755'
+
+- name: raspotify - Stop MPD when librespotify starts
+  community.general.ini_file:
+    path: /etc/raspotify/conf
+    section: null
+    option: LIBRESPOT_ONEVENT
+    value: /opt/mpc_stop.sh
+    no_extra_spaces: yes
+  notify:
+    - restart raspotify

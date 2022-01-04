@@ -1,0 +1,66 @@
+- name: lirc - Install lircd
+  apt:
+    name:
+      - lirc
+    state: present
+
+- name: lirc - Set driver
+  community.general.ini_file:
+    path: /etc/lirc/lirc_options.conf
+    section: lircd
+    option: driver
+    value: "default"
+  notify: restart lircd
+
+- name: lirc - Set driver
+  community.general.ini_file:
+    path: /etc/lirc/lirc_options.conf
+    section: lircd
+    option: device
+    value: "/dev/lirc0"
+  notify: restart lircd
+
+- name: lirc - Add configuration file for remote
+  ansible.builtin.copy:
+    src: lircd.conf
+    dest: /etc/lirc/lircd.conf
+    mode: '0644'
+  notify: restart lircd
+
+- name: lirc - Add configuration file for remote
+  ansible.builtin.copy:
+    src: irexec.lircrc
+    dest: /etc/lirc/irexec.lircrc
+    mode: '0644'
+  notify: restart irexec
+
+- name: lirc - Stop and disable lircmd service
+  service:
+    name: lircmd
+    enabled: no
+    state: stopped
+
+- name: lirc - Start and enable irexec service
+  service:
+    name: irexec
+    enabled: yes
+    state: started
+
+- name: lirc - Install python-snapcast to control snapcast from scripts
+  pip:
+    name:
+      - snapcast
+    executable: pip3
+
+- name: lirc - Copy snapserver control helper scripts
+  ansible.builtin.copy:
+    src: scripts/
+    dest: /opt/
+    mode: '0755'
+
+
+
+
+
+
+

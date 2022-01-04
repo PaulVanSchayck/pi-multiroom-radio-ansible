@@ -1,0 +1,122 @@
+# Used by irexec
+
+begin
+prog = irexec
+button = KEY_VOLUMEUP
+config = /opt/snap_volume.py 1
+delay = 0
+repeat = 1
+end
+
+begin
+prog = irexec
+button = KEY_VOLUMEDOWN
+config = /opt/snap_volume.py -1
+delay = 0
+repeat = 1
+end
+
+begin
+prog = irexec
+button = KEY_1
+config = mpc clear && mpc load "NPO Radio 1" && mpc play
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_3
+config = mpc clear && mpc load "NPO 3FM" && mpc play
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_4
+config = mpc clear && mpc load "NPO Radio 4" && mpc play
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_2
+config = mpc clear && mpc load "NPO Radio 2" && mpc play
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_GREEN
+config = /opt/snap_mute.py Keuken
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_YELLOW
+config = /opt/snap_mute.py Woonkamer
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_RED
+config = /opt/snap_default.py
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_RIGHT
+config = mpc next
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_LEFT
+config = mpc previous
+delay = 0
+repeat = 0
+end
+
+
+begin
+prog = irexec
+button = KEY_MUTE
+config = /opt/snap_mute.py all
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_EXIT
+config = mpc clear && mpc stop
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_POWER
+config = mpc clear && mpc stop && sudo service raspotify restart
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_OK
+config = mpc pause
+delay = 0
+repeat = 0
+end

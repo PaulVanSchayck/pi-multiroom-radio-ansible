@@ -1,0 +1,76 @@
+## Switched to pure MPD later. Kept for historical reasons.
+
+- name: mopidy - Add Mopidy Apt signing key
+  apt_key:
+    id: 78FD980E271D2943
+    url: https://apt.mopidy.com/mopidy.gpg
+    state: present
+
+- name: mopidy - Add Mopidy repository
+  apt_repository:
+    repo: deb https://apt.mopidy.com/ buster main contrib non-free
+    state: present
+    filename: mopidy
+    update_cache: yes
+
+- name: mopidy - Install Mopidy
+  apt:
+    name: mopidy
+    state: present
+
+- name: mopidy - Enable Mopidy service
+  systemd:
+    name: mopidy
+    scope: system
+    enabled: yes
+    state: started
+
+- name: mopidy - Install dependencies for mopidy extensions
+  apt:
+    name:
+      - python3-pip
+      - mplayer
+      - gstreamer1.0-libav
+      - libavcodec58
+      - ffmpeg
+      - nginx
+      - mpc
+    state: present
+  notify:
+    - restart mopidy
+
+- name: mopidy - Install Mopidy extensions via pip
+  pip:
+    name:
+      - Mopidy-MPD
+      - Mopidy-Muse
+    executable: pip3
+  notify:
+    - restart mopidy
+
+- name: mopidy - Template Mopidy config file
+  ansible.builtin.template:
+    src: mopidy.conf.j2
+    dest: /etc/mopidy/mopidy.conf
+    owner: mopidy
+    group: root
+    mode: '0644'
+  notify:
+    - restart mopidy
+
+- name: mopidy - Template nginx config as reverse proxy
+  ansible.builtin.template:
+    src: nginx-default.conf.j2
+    dest: /etc/nginx/sites-enabled/default
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart nginx
+
+- name: mopidy - Add all the radio streams
+  copy:
+    src: 'playlists/'
+    dest: '/var/lib/mopidy/m3u/'
+    owner: mopidy
+    group: audio

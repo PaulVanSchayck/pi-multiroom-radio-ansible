@@ -1,0 +1,49 @@
+- name: mpd - Add MPD Apt signing key
+  apt_key:
+    id: 065FE53932DC551D
+    url: https://media.kaliko.me/kaliko.gpg
+    state: present
+
+- name: mpd - Add MPD repository
+  apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/deb.kaliko.me.gpg] https://deb.kaliko.me/raspios-backports/ bullseye-backports main
+    state: present
+    filename: deb.kaliko.me
+    update_cache: yes
+
+- name: mpd - Install MPD
+  apt:
+    name: mpd
+    state: present
+
+- name: mpd - Enable MPD server
+  systemd:
+    name: mpd
+    scope: system
+    enabled: yes
+    state: started
+
+- name: mpd - Add to MPD config file
+  ansible.builtin.blockinfile:
+    path: /etc/mpd.conf
+    insertafter: EOF
+    block: |
+      audio_output {
+        type            "fifo"
+        name            "Snapcast"
+        path            "/var/spool/snap/snapfifo"
+        format          "44000:16:2"
+        mixer_type      "software"
+      }
+    
+      audio_buffer_size "8 MB"
+      restore_paused "yes"
+  notify:
+    - restart mpd
+
+- name: mpd - Add all the radio streams
+  copy:
+    src: 'playlists/'
+    dest: '/var/lib/mpd/playlists'
+    owner: mpd
+    group: audio

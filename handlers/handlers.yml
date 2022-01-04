@@ -1,0 +1,52 @@
+- name: restart mopidy
+  systemd:
+    name: mopidy
+    scope: system
+    state: restarted
+
+- name: restart mpd
+  systemd:
+    name: mpd
+    scope: system
+    state: restarted
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    scope: system
+    state: restarted
+
+- name: restart raspotify
+  service:
+    name: raspotify
+    state: restarted
+
+- name: restart avahi
+  systemd:
+    name: avahi-daemon
+    scope: system
+    state: restarted
+
+- name: restart snapserver
+  systemd:
+    name: snapserver
+    scope: system
+    state: restarted
+
+- name: restart snapclient
+  systemd:
+    name: snapclient
+    scope: system
+    state: restarted
+
+- name: restart lircd
+  systemd:
+    name: lircd
+    scope: system
+    state: restarted
+
+- name: restart irexec
+  systemd:
+    name: irexec
+    scope: system
+    state: restarted

@@ -1,0 +1,31 @@
+radios:
+  hosts:
+    kitchen:
+      ansible_host: 192.168.178.30
+      ansible_user: pi
+      ansible_python_interpreter: /usr/bin/python3
+
+      hostname: Keuken
+      snapserver_enable: false
+      snapclient_enable: true
+      mopidy_enable: false
+      lirc_enable: false
+      raspotify_enable: false
+      mpd_enable: false
+
+      snapcast_client_mixer: "software"
+
+    living:
+      ansible_host: 192.168.178.14
+      ansible_user: pi
+      ansible_python_interpreter: /usr/bin/python3
+
+      hostname: Woonkamer
+      snapserver_enable: true
+      snapclient_enable: true
+      mopidy_enable: false
+      mpd_enable: true
+      lirc_enable: true
+      raspotify_enable: true
+
+      snapcast_client_mixer: "software"

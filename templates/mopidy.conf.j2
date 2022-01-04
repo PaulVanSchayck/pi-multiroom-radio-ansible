@@ -1,0 +1,27 @@
+# For information about configuration values that can be set in this file see:
+#
+#   https://docs.mopidy.com/en/latest/config/
+#
+# Run `sudo mopidyctl config` to see the current effective config, based on
+# both defaults and this configuration file.
+[http]
+allowed_origins = {{hostname}}.local,{{ansible_eth0.ipv4.address}}
+
+[iris]
+country = NL
+locale = en_US
+snapcast_host = {{ansible_eth0.ipv4.address}}
+
+[file]
+enabled = false
+
+[audio]
+output = audioresample ! audioconvert ! audio/x-raw,rate=44000,channels=2,format=S16LE ! filesink location=/var/spool/snap/snapfifo
+mixer_volume = {{mopidy_base_volume}}
+buffer_time = 100
+
+[stream]
+timeout = 1000
+
+[logging]
+verbosity = 4

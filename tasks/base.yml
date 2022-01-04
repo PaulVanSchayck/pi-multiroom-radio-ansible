@@ -1,0 +1,45 @@
+- name: base - Set timezone
+  file:
+    src: /usr/share/zoneinfo/{{timezone_zone}}
+    dest: /etc/localtime
+    state: link
+    owner: root
+    group: root
+    mode: 0644
+  changed_when: false
+
+- name: base - Set hostname
+  ansible.builtin.hostname:
+    name: "{{ hostname|lower }}"
+
+- name: base - Set hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^#?127.0.1.1"
+    line: "127.0.1.1             {{ hostname|lower }}"
+    state: present
+
+- name: Switch off HMDI
+  lineinfile:
+    dest: /etc/rc.local
+    regexp: "^/usr/bin/tvservice"
+    line: "/usr/bin/tvservice -o"
+    insertbefore: "^exit"
+    state: present
+
+- name: base - Configure nightly reboot
+  ansible.builtin.cron:
+    name: "Nightly reboot"
+    minute: "0"
+    hour: "{{ nightly_reboot_hour }}"
+    job: "/usr/sbin/shutdown -r now"
+
+- name: base - Publish as workstation in avahi
+  community.general.ini_file:
+    path: /etc/avahi/avahi-daemon.conf
+    section: publish
+    option: publish-workstation
+    value: "yes"
+    backup: yes
+    no_extra_spaces: yes
+  notify: restart avahi

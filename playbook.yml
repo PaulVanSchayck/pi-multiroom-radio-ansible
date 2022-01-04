@@ -1,0 +1,47 @@
+---
+- hosts: radios
+  become: yes
+
+  pre_tasks:
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - example.config.yml
+        - config.yml
+
+    - name: Ensure apt cache is up to date.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  handlers:
+    - name: Include handlers.
+      ansible.builtin.import_tasks: handlers/handlers.yml
+
+  tasks:
+    - name: Setup Base.
+      ansible.builtin.import_tasks: tasks/base.yml
+
+#    - name: Setup Mopidy.
+#      ansible.builtin.import_tasks: tasks/mopidy.yml
+#      when: mopidy_enable
+
+    - name: Setup MPD.
+      ansible.builtin.import_tasks: tasks/mpd.yml
+      when: mpd_enable
+
+    - name: Setup Snapserver
+      ansible.builtin.import_tasks: tasks/snapserver.yml
+      when: snapserver_enable
+
+    - name: Setup Snapclient
+      ansible.builtin.import_tasks: tasks/snapclient.yml
+      when: snapclient_enable
+
+    - name: Setup Raspotify.
+      ansible.builtin.import_tasks: tasks/raspotify.yml
+      when: raspotify_enable
+
+    - name: Setup Lirc
+      ansible.builtin.import_tasks: tasks/lirc.yml
+      when: lirc_enable

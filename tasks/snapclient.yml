@@ -1,0 +1,11 @@
+- name: snapclient - Ensure the Snapcast client is installed
+  apt:
+    deb: "https://github.com/badaix/snapcast/releases/download/v{{ snapcast_version }}/snapclient_{{ snapcast_version}}-1_without-pulse_armhf.deb"
+
+- name: snapclient - Set startup options
+  lineinfile:
+    dest: /etc/default/snapclient
+    regexp: "^#?SNAPCLIENT_OPTS"
+    line: "SNAPCLIENT_OPTS=\"-h {{shapcast_host}} --mixer {{snapcast_client_mixer}}\""
+    state: present
+  notify: restart snapclient
