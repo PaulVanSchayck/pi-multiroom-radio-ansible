@@ -3,7 +3,7 @@
 begin
 prog = irexec
 button = KEY_VOLUMEUP
-config = /opt/snap_volume.py 1
+config = /opt/snapcast/snap_volume.py 1
 delay = 0
 repeat = 1
 end
@@ -11,7 +11,7 @@ end
 begin
 prog = irexec
 button = KEY_VOLUMEDOWN
-config = /opt/snap_volume.py -1
+config = /opt/snapcast/snap_volume.py -1
 delay = 0
 repeat = 1
 end
@@ -50,8 +50,27 @@ end
 
 begin
 prog = irexec
+button = KEY_9
+# Background Jazz
+config = /opt/scripts/spotify/spotify_playlist.py spotify:playlist:37i9dQZF1DWV7EzJMK2FUI
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_8
+# Discover Weekly
+config = /opt/scripts/spotify/spotify_playlist.py spotify:playlist:37i9dQZEVXcJKOTVBfzfi7
+delay = 0
+repeat = 0
+end
+
+
+begin
+prog = irexec
 button = KEY_GREEN
-config = /opt/snap_mute.py Keuken
+config = /opt/snapcast/snap_mute.py Keuken
 delay = 0
 repeat = 0
 end
@@ -59,7 +78,7 @@ end
 begin
 prog = irexec
 button = KEY_YELLOW
-config = /opt/snap_mute.py Woonkamer
+config = /opt/snapcast/snap_mute.py Woonkamer
 delay = 0
 repeat = 0
 end
@@ -67,7 +86,7 @@ end
 begin
 prog = irexec
 button = KEY_RED
-config = /opt/snap_default.py
+config = /opt/snapcast/snap_default.py
 delay = 0
 repeat = 0
 end
@@ -75,7 +94,7 @@ end
 begin
 prog = irexec
 button = KEY_RIGHT
-config = mpc next
+config = /opt/scripts/spotify/spotify_next.py
 delay = 0
 repeat = 0
 end
@@ -83,7 +102,7 @@ end
 begin
 prog = irexec
 button = KEY_LEFT
-config = mpc previous
+config = /opt/scripts/spotify/spotify_previous.py
 delay = 0
 repeat = 0
 end
@@ -108,7 +127,7 @@ end
 begin
 prog = irexec
 button = KEY_POWER
-config = mpc clear && mpc stop && sudo service raspotify restart
+config = mpc clear && mpc stop && service raspotify restart
 delay = 0
 repeat = 0
 end
@@ -116,7 +135,7 @@ end
 begin
 prog = irexec
 button = KEY_OK
-config = mpc pause
+config = /opt/scripts/spotify/spotify_pause.py
 delay = 0
 repeat = 0
 end

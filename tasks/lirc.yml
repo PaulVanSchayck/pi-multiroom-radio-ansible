@@ -46,15 +46,16 @@
     enabled: yes
     state: started
 
-- name: lirc - Install python-snapcast to control snapcast from scripts
+- name: lirc - Install python libs to control snapcast and spotify
   pip:
     name:
       - snapcast
+      - spotipy
     executable: pip3
 
-- name: lirc - Copy snapserver control helper scripts
+- name: lirc - Copy snapserver and spotify control helper scripts
   ansible.builtin.copy:
-    src: scripts/
+    src: scripts
     dest: /opt/
     mode: '0755'
 

@@ -62,7 +62,7 @@
   notify:
     - restart raspotify
 
-- name: raspotify - Configure backend to pipe
+- name: raspotify - Configure volume range
   community.general.ini_file:
     path: /etc/raspotify/conf
     section: null
