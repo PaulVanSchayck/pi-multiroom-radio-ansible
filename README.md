@@ -23,13 +23,13 @@ a simple infrared eye on one of the Pi's.
   * I started with Mopidy, but run into issues with a very slow startup (10 s) to start an internet stream.
     * Also `mpc` commands were relatively slow (2 s) to execute. 
     * For my usecase I didn't need the Mopidy features, so I switched to the simpler MPD.
-    * I kept the playbook tasks file, in case I want to switch back
+    * I kept the Ansible playbook task file, in case I want to switch back
   * Using [mpdbear](https://play.google.com/store/apps/details?id=net.clacks.mpdbear&hl=nl&gl=US) for Android to control MPD from my phone.
   * Volume control is entirely in Snapcast. I don't touch the MPD (or librespot) volume.
 * Multi-room is achieved using [Snapcast](https://github.com/badaix/snapcast)
-  * Using the software mixer on all systems, and then finetuning the hardware (ALSA) mixers to a nice level gave me
+  * Using the software mixer on all systems, and then fine-tuning the hardware (ALSA) mixers to a nice level gave me
     the best equal response in volume.
-  * The `snap_default.py` is being run to reset the Snapcast volume on every (nightly) reboot for all clients (no surprises in the morning)
+  * The `snap_default.py` script is being run to reset the Snapcast volume on every (nightly) reboot for all clients (no surprises in the morning)
     * Added as `ExecStartPost` to the Systemd service file
   * Both MPD and librespot pipe their output into the same named pipe. This makes the setup easier to understand.
     * This does mean that MPD and librespot should not play at the same time. 
@@ -38,10 +38,10 @@ a simple infrared eye on one of the Pi's.
       * I did include a simple `sudo service raspotify restart` to execute on the remote control power button
   * Using [Snapdroid](https://github.com/badaix/snapdroid) for Android to control Snapcast
 * Using [lirc](https://www.lirc.org/) to have my simple remote control working
-  * The infrared eye has been connected on 3 GPIO pins
-  * Getting the remote to work using `irrecord` can be a bit of a pain 
-  * I looked at using `uevent` for passing events, but in the end defaulted to the simpler `irexec` for sending commands
-  * Most of the magic is in `irexec.lircrc`. 
+  * The infrared eye has been connected on 3 GPIO pins (add `dtoverlay=gpio-ir,gpio_pin=17` to `/boot/config.txt`)
+  * Getting the remote to work using `irrecord` can be a bit of a pain. 
+  * I looked at using `uevent` for processing events, but in the end defaulted to the simpler `irexec` for sending commands
+  * Most of the command magic is in `irexec.lircrc`. 
     * Using `python-snapcast` to control the Snapcast volume
     * Created simple scripts `snap_mute.py` and `snap_volume.py` to control the muting and volume of the Snapcast clients
 
