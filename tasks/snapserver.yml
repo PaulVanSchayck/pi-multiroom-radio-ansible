@@ -31,5 +31,5 @@
     path: /lib/systemd/system/snapserver.service
     section: Service
     option: ExecStartPost
-    value: /opt/snap_default.py
+    value: /opt/scripts/snapcast/snap_default.py
     no_extra_spaces: yes
