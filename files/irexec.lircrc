@@ -3,7 +3,7 @@
 begin
 prog = irexec
 button = KEY_VOLUMEUP
-config = /opt/snapcast/snap_volume.py 1
+config = /opt/scripts/snapcast/snap_volume.py 2
 delay = 0
 repeat = 1
 end
@@ -11,7 +11,7 @@ end
 begin
 prog = irexec
 button = KEY_VOLUMEDOWN
-config = /opt/snapcast/snap_volume.py -1
+config = /opt/scripts/snapcast/snap_volume.py -2
 delay = 0
 repeat = 1
 end
@@ -52,7 +52,7 @@ begin
 prog = irexec
 button = KEY_9
 # Background Jazz
-config = /opt/scripts/spotify/spotify_playlist.py spotify:playlist:37i9dQZF1DWV7EzJMK2FUI
+config = curl -s -X POST -d "uri=spotify:playlist:37i9dQZF1DWV7EzJMK2FUI&shuffle=true&play=true" http://localhost:24879/player/load
 delay = 0
 repeat = 0
 end
@@ -61,16 +61,33 @@ begin
 prog = irexec
 button = KEY_8
 # Discover Weekly
-config = /opt/scripts/spotify/spotify_playlist.py spotify:playlist:37i9dQZEVXcJKOTVBfzfi7
+config = curl -s -X POST -d "uri=spotify:playlist:37i9dQZEVXcJKOTVBfzfi7&shuffle=true&play=true" http://localhost:24879/player/load
 delay = 0
 repeat = 0
 end
 
+begin
+prog = irexec
+button = KEY_6
+# NRC vandaag
+config = /opt/scripts/spotify/spotify_latest_episode.py 73vZPMVjxTqC02OYZdcCr7
+delay = 0
+repeat = 0
+end
+
+begin
+prog = irexec
+button = KEY_7
+# Starred
+config = curl -s -X POST -d "uri=spotify:playlist:7iR0obxeHpecijk5ZNRTnN&shuffle=true&play=true" http://localhost:24879/player/load
+delay = 0
+repeat = 0
+end
 
 begin
 prog = irexec
 button = KEY_GREEN
-config = /opt/snapcast/snap_mute.py Keuken
+config = /opt/scripts/snapcast/snap_mute.py Keuken
 delay = 0
 repeat = 0
 end
@@ -78,7 +95,7 @@ end
 begin
 prog = irexec
 button = KEY_YELLOW
-config = /opt/snapcast/snap_mute.py Woonkamer
+config = /opt/scripts/snapcast/snap_mute.py Woonkamer
 delay = 0
 repeat = 0
 end
@@ -86,7 +103,7 @@ end
 begin
 prog = irexec
 button = KEY_RED
-config = /opt/snapcast/snap_default.py
+config = /opt/scripts/snapcast/snap_default.py
 delay = 0
 repeat = 0
 end
@@ -94,7 +111,7 @@ end
 begin
 prog = irexec
 button = KEY_RIGHT
-config = /opt/scripts/spotify/spotify_next.py
+config = curl -s -X POST  http://localhost:24879/player/next
 delay = 0
 repeat = 0
 end
@@ -102,7 +119,7 @@ end
 begin
 prog = irexec
 button = KEY_LEFT
-config = /opt/scripts/spotify/spotify_previous.py
+config = curl -s -X POST  http://localhost:24879/player/prev
 delay = 0
 repeat = 0
 end
@@ -111,7 +128,7 @@ end
 begin
 prog = irexec
 button = KEY_MUTE
-config = /opt/snap_mute.py all
+config = /opt/scripts/snapcast/snap_mute.py all
 delay = 0
 repeat = 0
 end
@@ -127,7 +144,7 @@ end
 begin
 prog = irexec
 button = KEY_POWER
-config = mpc clear && mpc stop && service raspotify restart
+config = mpc clear && mpc stop && service librespot-java restart
 delay = 0
 repeat = 0
 end
@@ -135,7 +152,7 @@ end
 begin
 prog = irexec
 button = KEY_OK
-config = /opt/scripts/spotify/spotify_pause.py
+config = curl -s -X POST  http://localhost:24879/player/play-pause
 delay = 0
 repeat = 0
 end

@@ -27,7 +27,7 @@
     mode: '0644'
   notify: restart lircd
 
-- name: lirc - Add configuration file for remote
+- name: lirc - Add configuration file for irexec
   ansible.builtin.copy:
     src: irexec.lircrc
     dest: /etc/lirc/irexec.lircrc

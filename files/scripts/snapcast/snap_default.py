@@ -9,7 +9,7 @@ living = next(item for item in server.clients if item.friendly_name == "Woonkame
 kitchen = next(item for item in server.clients if item.friendly_name == "Keuken")
 
 tasks = [
-    living.set_volume(15),
+    living.set_volume(20),
     living.set_muted(False),
     kitchen.set_volume(15),
     kitchen.set_muted(False)
