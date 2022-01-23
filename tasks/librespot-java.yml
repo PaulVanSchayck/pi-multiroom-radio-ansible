@@ -1,0 +1,151 @@
+- name: librespot-java - Install java
+  apt:
+    name: default-jdk
+
+- name: librespot-java - ensure group "librespot" exists
+  group:
+    name: librespot
+    state: present
+    system: yes
+
+- name: librespot-java - add the user "librespot"
+  user:
+    name: librespot
+    comment: "User for librespot"
+    groups: librespot,audio
+    system: yes
+    create_home: no
+
+- name: librespot-java - creates directory
+  file:
+    dest: /opt/librespot-java
+    state: directory
+    owner: librespot
+    group: librespot
+
+- name: librespot-java - Download librespot-api
+  ansible.builtin.get_url:
+    url: "https://github.com/librespot-org/librespot-java/releases/download/v{{librespot_java_version}}/librespot-api-{{librespot_java_version}}.jar"
+    dest: /opt/librespot-java/librespot-api.jar
+    mode: 0664
+    owner: librespot
+    group: librespot
+
+- name: librespot-java - copy service script
+  copy:
+    src: "librespot-java.service"
+    dest: "/usr/local/lib/systemd/system/librespot-java.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - restart librespot-java
+  systemd:
+    name: librespot-java
+    enabled: yes
+    state: started
+
+- name: librespot-java - wait until the file config.toml is present before continuing
+  wait_for:
+    path: /opt/librespot-java/config.toml
+
+- name: librespot-java - Configure log level
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: null
+    option: logLevel
+    value: "\"INFO\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Disable cache
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: cache
+    option: enabled
+    value: "false"
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Limit api to localhost
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: auth
+    option: storeCredentials
+    value: "true"
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Store credentials
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: api
+    option: host
+    value: "\"127.0.0.1\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Configure device name
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: null
+    option: deviceName
+    value: "\"{{librespot_java_name}}\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Configure bitrate
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: player
+    option: preferredAudioQuality
+    value: "\"{{librespot_java_bit_rate}}\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Configure backend to pipe
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: player
+    option: output
+    value: "\"pipe\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Configure named pipe to snapcast
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: player
+    option: pipe
+    value: "\"/var/spool/snap/snapfifo\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Configure Spotify icon
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: null
+    option: deviceType
+    value: "\"{{librespot_java_device_type}}\""
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Enable Shell
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: shell
+    option: enabled
+    value: "true"
+  notify:
+    - restart librespot-java
+
+- name: librespot-java - Stop MPD when Spotify starts
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: shell
+    option: onStartedLoading
+    value: "\"/usr/bin/mpc -q stop\""
+  notify:
+    - restart librespot-java

@@ -11,6 +11,7 @@ radios:
       mopidy_enable: false
       lirc_enable: false
       raspotify_enable: false
+      librespot_java_enable: false
       mpd_enable: false
 
       snapcast_client_mixer: "software"
@@ -26,6 +27,7 @@ radios:
       mopidy_enable: false
       mpd_enable: true
       lirc_enable: true
-      raspotify_enable: true
+      raspotify_enable: false
+      librespot_java_enable: true
 
       snapcast_client_mixer: "software"

@@ -1,0 +1,19 @@
+[Unit]
+Description=librespot-java
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=simple
+User=librespot
+Group=librespot
+
+Restart=always
+RestartSec=10
+
+ExecStartPre=/bin/sh -c 'until ping -c1 spotify.com; do sleep 5; done;'
+WorkingDirectory=/opt/librespot-java
+ExecStart=/usr/bin/java -jar librespot-api.jar
+
+[Install]
+WantedBy=multi-user.target

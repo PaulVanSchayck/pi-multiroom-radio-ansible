@@ -18,3 +18,13 @@ raspotify_device_type: "speaker"
 snapcast_version: 0.26.0
 snapcast_delay: "400"
 shapcast_host: "192.168.178.14"
+
+## Spotify Connect
+librespot_java_version: 1.6.2
+librespot_java_name: "Radio"
+# Bitrate (kbps) {96|160|320}
+librespot_java_bit_rate: "HIGH"
+# Displayed device type: computer, tablet, smartphone, speaker, tv, avr (Audio/Video Receiver),
+# stb (Set-Top Box), audiodongle, gameconsole, castaudio, castvideo, automobile, smartwatch, chromebook, carthing, homething.
+# Defaults to speaker.
+librespot_java_device_type: "SPEAKER"

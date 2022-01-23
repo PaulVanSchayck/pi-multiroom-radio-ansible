@@ -37,10 +37,14 @@
       ansible.builtin.import_tasks: tasks/snapclient.yml
       when: snapclient_enable
 
-    - name: Setup Raspotify.
-      ansible.builtin.import_tasks: tasks/raspotify.yml
-      when: raspotify_enable
+#    - name: Setup Raspotify.
+#      ansible.builtin.import_tasks: tasks/raspotify.yml
+#      when: raspotify_enable
 
     - name: Setup Lirc
       ansible.builtin.import_tasks: tasks/lirc.yml
       when: lirc_enable
+
+    - name: Setup librespot-java.
+      ansible.builtin.import_tasks: tasks/librespot-java.yml
+      when: librespot_java_enable

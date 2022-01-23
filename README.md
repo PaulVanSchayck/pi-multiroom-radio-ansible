@@ -15,10 +15,13 @@ I like to play internet radio and Spotify (Connect) in a multi-room setup.
 The radio part I'm mostly controlling via a traditional remote control, connected via
 a simple infrared eye on one of the Pi's.
 
-* For spotify [librespot](https://github.com/librespot-org/librespot) is the obvious choice.
-  * Using the nice wrapper [raspotify](https://github.com/dtcooper/raspotify) to daemonize librespot
-  * [Spotifyd](https://github.com/Spotifyd/spotifyd) was tempting, because it would allow control of playback via MPRIS
-    * But named pipe output is currently broken. Making Snapcast setup difficult
+* ~~For spotify [librespot](https://github.com/librespot-org/librespot) is the obvious choice.~~
+  * ~~Using the nice wrapper [raspotify](https://github.com/dtcooper/raspotify) to daemonize librespot~~
+  * ~~[Spotifyd](https://github.com/Spotifyd/spotifyd) was tempting, because it would allow control of playback via MPRIS~~
+    * ~~But named pipe output is currently broken. Making Snapcast setup difficult~~
+* For Spotify, I've switched to [librespot-java](https://github.com/librespot-org/librespot-java)
+  * Only reason is the built-in API, which can easily be called from irexec for remote control
+  * The librespot-java API also can pass through requests to the Spotify API. Also useful 
 * For internet radio classic [MPD](https://www.musicpd.org/) is being used
   * I started with Mopidy, but run into issues with a very slow startup (10 s) to start an internet stream.
     * Also `mpc` commands were relatively slow (2 s) to execute. 

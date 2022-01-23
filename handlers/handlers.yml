@@ -50,3 +50,8 @@
     name: irexec
     scope: system
     state: restarted
+
+- name: restart librespot-java
+  service:
+    name: librespot-java
+    state: restarted
