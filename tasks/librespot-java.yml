@@ -149,3 +149,12 @@
     value: "\"/usr/bin/mpc -q stop\""
   notify:
     - restart librespot-java
+
+- name: librespot-java - Disable normalisation
+  community.general.ini_file:
+    path: /opt/librespot-java/config.toml
+    section: player
+    option: enableNormalisation
+    value: "false"
+  notify:
+    - restart librespot-java

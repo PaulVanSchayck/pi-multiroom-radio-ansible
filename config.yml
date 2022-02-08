@@ -16,7 +16,7 @@ raspotify_device_type: "speaker"
 
 ## Snapcast
 snapcast_version: 0.26.0
-snapcast_delay: "400"
+snapcast_delay: "1000"
 shapcast_host: "192.168.178.14"
 
 ## Spotify Connect

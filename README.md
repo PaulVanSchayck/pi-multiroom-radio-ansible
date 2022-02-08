@@ -1,7 +1,7 @@
 # pi-multiroom-radio-ansible
 
 This is a (personal) playbook to configure my multi-room radio/Spotify HiFi system. Running on 
-MPD, Snapcast, librespot (raspotify) and lirc. Built over frustration of missing features or configurability
+MPD, Snapcast, librespot-java and lirc. Built over frustration of missing features or configurability
 in the existing pre-built systems such as RuneAudio, Volumio, Pi MusicBox or Moode.
 
 At some point I realised, it was quicker to just build the system myself. Using Ansible I can easily 
@@ -38,7 +38,7 @@ a simple infrared eye on one of the Pi's.
     * This does mean that MPD and librespot should not play at the same time. 
     * Librespot executes the `mpc_stop.sh` script using the `--onevent` handler
     * The other way around, I've not found a good way to stop librespot when MPD starts.
-      * I did include a simple `sudo service raspotify restart` to execute on the remote control power button
+      * I did include a simple `sudo service librespot-java restart` to execute on the remote control power button
   * Using [Snapdroid](https://github.com/badaix/snapdroid) for Android to control Snapcast
 * Using [lirc](https://www.lirc.org/) to have my simple remote control working
   * The infrared eye has been connected on 3 GPIO pins (add `dtoverlay=gpio-ir,gpio_pin=17` to `/boot/config.txt`)
